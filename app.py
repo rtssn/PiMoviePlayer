@@ -1,32 +1,69 @@
 from asyncio import subprocess
-from curses.ascii import NUL
-from flask import Flask
+from flask import Flask, render_template
 import subprocess
 import psutil
+import os
 
 app = Flask(__name__)
 
-# サブプロセス
-proc = None
-
 
 @app.route("/")
-def hello_world():
-    proc = subprocess.Popen(
-        ["omxplayer", "/home/motoki/idol.mp4"],
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
+def home():
+    return render_template('home.html')
 
-    print(proc)
 
-    return "<p>Hello, World!</p>"
+@app.route("/list")
+def list():
+    if not os.path.isdir("./movies"):
+        os.mkdir("movies")
+
+    files = os.listdir("./movies")
+
+    return {"files": files}
+
+
+@app.route("/play/<filename>")
+def play(filename):
+    playerProcess = playerProcessCheck()
+
+    print(playerProcess[0])
+
+    if not playerProcess[0]:
+        currentDir = os.getcwd()
+
+        path = currentDir + "/movies/" + filename
+
+        proc = subprocess.Popen(
+            ["omxplayer", path],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        ret = {"pid": proc.pid, "path": path}
+    else:
+        ret = {"error": "now playing"}
+
+    return ret
 
 
 @app.route("/stop")
 def stop():
-    pid = "not"
+    ret = {"status": ""}
+    playerProcess = playerProcessCheck()
+
+    if playerProcess[0]:
+        pid = playerProcess[1]
+        p = psutil.Process(pid)
+        p.terminate()
+        ret = {"status": "ok"}
+    else:
+        ret = {"error": "not playing"}
+
+    return ret
+
+
+def playerProcessCheck():
+    ret = False, -1
 
     pids = {
         p.info["name"]: p.info["pid"]
@@ -34,10 +71,6 @@ def stop():
     }
 
     if ('omxplayer.bin' in pids):
-        pid = pids['omxplayer.bin']
-        p = psutil.Process(pid)
-        p.terminate()
-
-    ret = {"pid": pid}
+        ret = True, pids['omxplayer.bin']
 
     return ret
