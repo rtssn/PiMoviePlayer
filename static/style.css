@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&family=Source+Code+Pro&family=Orbitron&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0');
+
 body {
     margin: 0;
     padding: 0;
+    font-family: 'BIZ UDPGothic', sans-serif;
     background-color: #242424;
     color: #333;
 }
@@ -19,4 +23,30 @@ body {
     width: calc(70% - 40px);
     margin: 10px;
     padding: 20px;
+}
+
+button {
+    height: 40px;
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+    border: solid 1px #b73cff;
+    background-color: #b73cff;
+    color: #fff;
+    transition: all 0.2s;
+    font-size: 16px;
+    transition: all 0.5s ease;
+}
+
+button:hover {
+    background-color: #d48aff;
+    filter: drop-shadow(0px 0px 3px rgba(252, 130, 231, 0.8));
+}
+
+a {
+    color: #8e39ff;
+    transition: all 0.2s;
+}
+
+a:hover {
+    color: #c981f2;
 }
