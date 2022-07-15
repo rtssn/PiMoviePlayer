@@ -4,18 +4,42 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/style.css">
     <title>PiMoviePlayer</title>
 </head>
 
 <body>
+    <div class="hero">
+        <h1>Pi MoviePlayer</h1>
+    </div>
     <div class="container">
         <div class="innner">
             <div class="control">
                 <button id="stop">停止</button>
+                <button id="upload-modal-open-button">動画アップロード</button>
             </div>
-            <div id="movie-list">
-                <h1>動画一覧</h1>
+            <div>
+                <h2>動画一覧</h2>
+                <div id="movie-list"></div>
+            </div>
+        </div>
+    </div>
+    <div id="upload-modal" class="modal">
+        <div class="modal-control">
+            <span class="material-symbols-outlined" id="modal-close-button">
+                cancel
+            </span>
+        </div>
+        <div class="modal-content">
+            <div>
+                <form id="upload-form">
+                    <input type="file" id="select-file" name="file">
+                </form>
+                <progress id="upload-progress"></progress>
+            </div>
+            <div>
+                <button id="upload-button" type="button">アップロード</button>
             </div>
         </div>
     </div>
