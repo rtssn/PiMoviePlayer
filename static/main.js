@@ -112,8 +112,8 @@ const fileUpload = () => {
 
     xhr.upload.onload = () => {
         getMovies();
-
         modalClose();
+        selectFileElement.value = '';
     };
 
     const uploadForm = document.getElementById('upload-form');
